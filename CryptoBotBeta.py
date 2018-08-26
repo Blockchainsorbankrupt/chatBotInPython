@@ -18,18 +18,19 @@ import misclib
 
 
 
+#sets up the api keys for use
 
 
 
-SECRET_KEY=('HIDDEN')
-API_KEY=('HIDDEN')
+SECRET_KEY=('CRIyMNlX3GiSj8CqTy7988JbYnmCgpMUofKASggOmlgjBrj9nALNYgCKEDJrwwdj')
+API_KEY=('QgGsjZryivsC1RhaZ81MT1IopyslATOsGNNKPjM808QPXfLZZNPHPYf01nVJ1797')
 client=Client(API_KEY,SECRET_KEY)
 
-
-DB_NAME=('HIDDEN')
-DB_USERNAME=('HIDDEN')
-DB_HOST=('HIDDEN')
-DB_PASSWORD=('HIDDEN')
+#define postgres DB
+DB_NAME=('users')
+DB_USERNAME=('postgres')
+DB_HOST=('localhost')
+DB_PASSWORD=('Killa274')
 DB_URL="dbname='"+DB_NAME+"' user='"+DB_USERNAME+"' host='"+DB_HOST+"' password='"+DB_PASSWORD+"'"
 
 conn=psycopg2.connect(DB_URL)
@@ -71,7 +72,7 @@ def coin(bot, update,args):
 
 
 
-
+#defines market caps
 
 def btcCap (bot, update):
     btcCapJson = requests.get("https://api.coingecko.com/api/v3/global").json()
@@ -92,7 +93,7 @@ def ethCap (bot, update):
 
 
 
-
+#gives info on different cryptocurrency projects
 
 def infoCoin(bot,update,args,total_string_length_to_send=470):
     if args[-1] == '1':
@@ -115,8 +116,10 @@ def infoCoin(bot,update,args,total_string_length_to_send=470):
 
 
 
+#defines /24 price changes for the folowing coins
         
 def eosChange(bot, update):
+    
     eosChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EOS&tsyms=USD,EUR").json()
     eosChange = eosChangeCallJson['RAW']['EOS']['USD']['CHANGE24HOUR']
     eosVol = eosChangeCallJson ['RAW']['EOS']['USD']['TOTALVOLUME24HTO']
@@ -128,6 +131,7 @@ def eosChange(bot, update):
 
 
 def nemChange(bot, update):
+    
     nemChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=XEM&tsyms=USD,EUR").json()
     nemChange = nemChangeCallJson['RAW']['XEM']['USD']['CHANGE24HOUR']
     nemVol = nemChangeCallJson ['RAW']['XEM']['USD']['TOTALVOLUME24HTO']
@@ -141,7 +145,7 @@ def nemChange(bot, update):
 
 
 def btcChange(bot, update):
-    """Send a message when the command /start is issued."""
+
     btcChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC&tsyms=USD,EUR").json()
     btcChange = btcChangeCallJson['RAW']['BTC']['USD']['CHANGE24HOUR']
     btcVol = btcChangeCallJson ['RAW']['BTC']['USD']['TOTALVOLUME24HTO']
@@ -150,10 +154,26 @@ def btcChange(bot, update):
                               "              Volume for 24 hours :  ${:,}".format(btcVol)+
                               "              The price of the coin is:   ${:,}".format(btcPrice))
 
+
+
+def sanChange(bot, update):
+
+    sanChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=SAN&tsyms=USD,EUR").json()
+    sanChange = sanChangeCallJson['RAW']['SAN']['USD']['CHANGE24HOUR']
+    sanVol = sanChangeCallJson ['RAW']['SAN']['USD']['TOTALVOLUME24HTO']
+    sanPrice = sanChangeCallJson ['RAW']['SAN']['USD']['PRICE']
+    update.message.reply_text("Price change over 24H:  $" + str (sanChange)+
+                              "              Volume for 24 hours :  ${:,}".format(sanVol)+
+                              "              The price of the coin is:   ${:,}".format(sanPrice))
+
+
+    
+
  
 
 
 def etcChange(bot, update):
+    
     etcChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETC&tsyms=USD,EUR").json()
     etcChange = etcChangeCallJson['RAW']['ETC']['USD']['CHANGE24HOUR']
     etcVol = etcChangeCallJson ['RAW']['ETC']['USD']['TOTALVOLUME24HTO']
@@ -163,6 +183,7 @@ def etcChange(bot, update):
                               "              The price of the coin is:   ${:,}".format(etcPrice))
 
 def ethChange(bot, update):
+    
     ethChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD,EUR").json()
     ethChange = ethChangeCallJson['RAW']['ETH']['USD']['CHANGE24HOUR']
     ethVol = ethChangeCallJson ['RAW']['ETH']['USD']['TOTALVOLUME24HTO']
@@ -173,6 +194,7 @@ def ethChange(bot, update):
 
 
 def etpChange(bot, update):
+    
     etpChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETP&tsyms=USD,EUR").json()
     etpChange = etpChangeCallJson['RAW']['ETP']['USD']['CHANGE24HOUR']
     etpVol = etpChangeCallJson ['RAW']['ETP']['USD']['TOTALVOLUME24HTO']
@@ -184,11 +206,12 @@ def etpChange(bot, update):
 
 
 def bnbChange(bot, update):
+    
     bnbChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BNB&tsyms=USD,EUR").json()
     bnbChange = bnbChangeCallJson['RAW']['BNB']['USD']['CHANGE24HOUR']
     bnbVol = bnbChangeCallJson ['RAW']['BNB']['USD']['TOTALVOLUME24HTO']
     bnbPrice = bnbChangeCallJson ['RAW']['BNB']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H:  $" + str (bnbChange)+
+    update.message.reply_text("Price change over 24H:  ${:,}".format(bnbChange)+
                               "                  Volume for 24 hours :  ${:,}".format(bnbVol)+
                               "                  The price of the coin is:   ${:,}".format(bnbPrice))
 
@@ -196,15 +219,21 @@ def bnbChange(bot, update):
     
 
 def batChange(bot, update):
-    """Send a message when the command /start is issued."""
+ 
     batChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BAT&tsyms=USD,EUR").json()
     batChange = batChangeCallJson['RAW']['BAT']['USD']['CHANGE24HOUR']
-    update.message.reply_text("Price change over 24H: " + str (batChange))
+    batVol = batChangeCallJson ['RAW']['BAT']['USD']['TOTALVOLUME24HTO']
+    batPrice = batChangeCallJson ['RAW']['BAT']['USD']['PRICE']
+    update.message.reply_text("Price change over 24H:  ${:,}".format(batChange)+
+                              "                  Volume for 24 hours :  ${:,}".format(batVol)+
+                              "                  The price of the coin is:   ${:,}".format(batPrice))
+
+
 
 
 
 def ltcChange(bot, update):
-    """Send a message when the command /start is issued."""
+
     ltcChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=LTC&tsyms=USD,EUR").json()
     ltcChange = ltcChangeCallJson['RAW']['LTC']['USD']['CHANGE24HOUR']
     ltcVol = ltcChangeCallJson ['RAW']['LTC']['USD']['TOTALVOLUME24HTO']
@@ -214,7 +243,7 @@ def ltcChange(bot, update):
 
 
 def ltcChange(bot, update):
-    """Send a message when the command /start is issued."""
+  
     ltcChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=LTC&tsyms=USD,EUR").json()
     ltcChange = ltcChangeCallJson['RAW']['LTC']['USD']['CHANGE24HOUR']
     ltcVol = ltcChangeCallJson ['RAW']['LTC']['USD']['TOTALVOLUME24HTO']
@@ -222,7 +251,7 @@ def ltcChange(bot, update):
                               "              Volume (in usd) for 24 hours :  "  +str(ltcVol))
 
 def gntChange (bot, update):
-    """Send a message when the command /start is issued."""
+    
     gntChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=GNT&tsyms=USD,EUR").json()
     gntChange = gntChangeCallJson['RAW']['GNT']['USD']['CHANGE24HOUR']
     gntVol = gntChangeCallJson ['RAW']['GNT']['USD']['TOTALVOLUME24HTO']
@@ -233,30 +262,20 @@ def gntChange (bot, update):
 
 
 
-def ontChange (bot, update):
-    """Send a message when the command /start is issued."""
-    ontChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ONT&tsyms=USD,EUR").json()
-    ontChange = ontChangeCallJson['RAW']['ONT']['USD']['CHANGE24HOUR']
-    ontVol = ontChangeCallJson ['RAW']['ONT']['USD']['TOTALVOLUME24HTO']
-    ontPrice = ontChangeCallJson ['RAW']['ONT']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H: " + str (ontChange)+
-                              "              Volume (in usd) for 24 hours :  "  +str(ontVol)+
-                              " The price of the coin is: "+ str(ontPrice))
-
 
 
 
 
 
 def ontChange (bot, update):
-    """Send a message when the command /start is issued."""
+
     ontChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ONT&tsyms=USD,EUR").json()
     ontChange = ontChangeCallJson['RAW']['ONT']['USD']['CHANGE24HOUR']
     ontVol = ontChangeCallJson ['RAW']['ONT']['USD']['TOTALVOLUME24HTO']
     ontPrice = ontChangeCallJson ['RAW']['ONT']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H: " + str (ontChange)+
-                              "              Volume (in usd) for 24 hours :  "  +str(ontVol)+
-                              " The price of the coin is: "+ str(ontPrice))
+    update.message.reply_text("Price change over 24H: ${:,}" .format(ontChange)+
+                              "              Volume for 24 hours :  ${:,}".format(ontVol)+
+                              " The price of the coin is: ${:,}".format(ontPrice))
 
     
 
@@ -264,14 +283,14 @@ def ontChange (bot, update):
 
 
 def stormChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     stormChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=STORM&tsyms=USD,EUR").json()
     stormChange = stormChangeCallJson['RAW']['STORM']['USD']['CHANGE24HOUR']
     stormVol = stormChangeCallJson ['RAW']['STORM']['USD']['TOTALVOLUME24HTO']
     stormPrice = stormChangeCallJson ['RAW']['STORM']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H: $" + str (stormChange)+
-                              "              Volume for 24 hours : $"  +str(stormVol)+
-                              " The price of the coin is: $"+ str(stormPrice))
+    update.message.reply_text("Price change over 24H: ${:,}".format(stormChange)+
+                              "              Volume for 24 hours : ${:,}".format(stormVol)+
+                              " The price of the coin is: $ {:,}".format(stormPrice))
 
 
 
@@ -279,44 +298,44 @@ def stormChange (bot,update):
 
 
 def dcrChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     dcrChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=DCR&tsyms=USD,EUR").json()
     dcrChange = dcrChangeCallJson['RAW']['DCR']['USD']['CHANGE24HOUR']
     dcrVol = dcrChangeCallJson ['RAW']['DCR']['USD']['TOTALVOLUME24HTO']
     dcrPrice = dcrChangeCallJson ['RAW']['DCR']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H: $" + str (dcrChange)+
-                              "              Volume for 24 hours :  $"  +str(dcrVol)+
-                              "              The price of the coin is: $"+ str(dcrPrice))
+    update.message.reply_text("Price change over 24H: ${:,}".format(dcrChange)+
+                              "              Volume for 24 hours :  ${:,}".format(dcrVol)+
+                              "              The price of the coin is: $ {:,}".format(dcrPrice))
 
 
 
 
 def trxChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     trxChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=TRX&tsyms=USD,EUR").json()
     trxChange = trxChangeCallJson['RAW']['TRX']['USD']['CHANGE24HOUR']
     trxVol = trxChangeCallJson ['RAW']['TRX']['USD']['TOTALVOLUME24HTO']
     trxPrice = trxChangeCallJson ['RAW']['TRX']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H:  $" + str (trxChange)+
-                              "              Volume for 24 hours :  $"  +str(trxVol)+
-                              "              The price of the coin is:   $"+ str(trxPrice))
+    update.message.reply_text("Price change over 24H:  ${:,}".format(trxChange)+
+                              "              Volume for 24 hours :  ${:,}".format(trxVol)+
+                              "              The price of the coin is:   ${:,}".format(trxPrice))
 
 
 def vetChange (bot,update):
-    """Send a message when the command /start is issued."""
+   
     vetChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=VET&tsyms=USD,EUR").json()
     vetChange = vetChangeCallJson['RAW']['VET']['USD']['CHANGE24HOUR']
     vetVol = vetChangeCallJson ['RAW']['VET']['USD']['TOTALVOLUME24HTO']
     vetPrice = vetChangeCallJson ['RAW']['VET']['USD']['PRICE']
-    update.message.reply_text("Price change over 24H:  $" + str (vetChange)+
-                              "              Volume for 24 hours :  $"  +str(vetVol)+
-                              "              The price of the coin is:   $"+ str(vetPrice))
+    update.message.reply_text("Price change over 24H:  ${:,}".format(vetChange)+
+                              "              Volume for 24 hours :  ${:,} ".format(vetVol)+
+                              "              The price of the coin is:   $ {:,}".format(vetPrice))
 
 
 
 
 def zrxChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     zrxChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ZRX&tsyms=USD,EUR").json()
     zrxChange = zrxChangeCallJson['RAW']['ZRX']['USD']['CHANGE24HOUR']
     zrxVol = zrxChangeCallJson ['RAW']['ZRX']['USD']['TOTALVOLUME24HTO']
@@ -330,7 +349,7 @@ def zrxChange (bot,update):
 
 
 def iotaChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     iotaChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=IOTA&tsyms=USD,EUR").json()
     iotaChange = iotaChangeCallJson['RAW']['IOTA']['USD']['CHANGE24HOUR']
     iotaVol = iotaChangeCallJson ['RAW']['IOTA']['USD']['TOTALVOLUME24HTO']
@@ -343,7 +362,7 @@ def iotaChange (bot,update):
 
 
 def edoChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     edoChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=EDO&tsyms=USD,EUR").json()
     edoChange = edoChangeCallJson['RAW']['EDO']['USD']['CHANGE24HOUR']
     edoVol = edoChangeCallJson ['RAW']['EDO']['USD']['TOTALVOLUME24HTO']
@@ -356,7 +375,7 @@ def edoChange (bot,update):
 
 
 def neoChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     neoChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=NEO&tsyms=USD,EUR").json()
     neoChange = neoChangeCallJson['RAW']['NEO']['USD']['CHANGE24HOUR']
     neoVol = neoChangeCallJson ['RAW']['NEO']['USD']['TOTALVOLUME24HTO']
@@ -372,7 +391,7 @@ def neoChange (bot,update):
 
 
 def adaChange (bot,update):
-    """Send a message when the command /start is issued."""
+
     adaChangeCallJson = requests.get("https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ADA&tsyms=USD,EUR").json()
     adaChange = adaChangeCallJson['RAW']['ADA']['USD']['CHANGE24HOUR']
     adaVol = adaChangeCallJson ['RAW']['ADA']['USD']['TOTALVOLUME24HTO']
@@ -388,7 +407,7 @@ def adaChange (bot,update):
 
 def help(bot, update):
     """Send a message when the command /help is issued."""
-    update.message.reply_text('Call commands using your coin, try:  | /btc  ,  /(coin)24 , /news !!!!PLEASE DO /rules BEFORE ANYTHING!!!, /wall (coin)example: /wall eos  , /info (coinFull)example: /info bitcoin , /btccap  , /ethcap')
+    update.message.reply_text('!!!!PLEASE DO /rules BEFORE ANYTHING!!!:   /btc  ,  /(coin)24 , /news , /wall (coin)example: /wall eos  , /info (coinFull)example: /info bitcoin , /btccap  , /ethcap, /tether')
 
     
 
@@ -417,7 +436,7 @@ def eth(bot, update):
 
 
 def bnb(bot, update):
-    """Send a message when the command /eth is issued."""
+
     bnbtickCall = "https://min-api.cryptocompare.com/data/price?fsym=BNB&tsyms=USD,JPY,EUR"
     bnbtickCallJson = requests.get(bnbtickCall).json()
     bnbtickOut = bnbtickCallJson 
@@ -426,7 +445,7 @@ def bnb(bot, update):
 
 
 def xrp(bot, update):
-    """Send a message when the command /eth is issued."""
+
     xrptickCall = "https://min-api.cryptocompare.com/data/price?fsym=XRP&tsyms=USD,JPY,EUR"
     xrptickCallJson = requests.get(xrptickCall).json()
     xrptickOut = xrptickCallJson 
@@ -438,7 +457,7 @@ def xrp(bot, update):
 
 
 def etp(bot, update):
-    """Send a message when the command /eth is issued."""
+   
     etptickCall = "https://min-api.cryptocompare.com/data/price?fsym=ETP&tsyms=USD,JPY,EUR"
     etptickCallJson = requests.get(etptickCall).json()
     etptickOut = etptickCallJson 
@@ -448,7 +467,7 @@ def etp(bot, update):
 
 
 def etc(bot, update):
-    """Send a message when the command /eth is issued."""
+    
     etctickCall = "https://min-api.cryptocompare.com/data/price?fsym=ETC&tsyms=USD,JPY,EUR"
     etctickCallJson = requests.get(etctickCall).json()
     etctickOut = etctickCallJson 
@@ -458,7 +477,6 @@ def etc(bot, update):
 
 
 def omg(bot, update):
-    """Send a message when the command /eth is issued."""
     omgtickCall = "https://min-api.cryptocompare.com/data/price?fsym=OMG&tsyms=USD,JPY,EUR"
     omgtickCallJson = requests.get(omgtickCall).json()
     omgtickOut = omgtickCallJson 
@@ -467,7 +485,6 @@ def omg(bot, update):
 
 
 def ltc(bot, update):
-    """Send a message when the command /eth is issued."""
     ltctickCall = "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD,JPY,EUR"
     ltctickCallJson = requests.get(ltctickCall).json()
     ltctickOut = ltctickCallJson 
@@ -478,7 +495,6 @@ def ltc(bot, update):
 
 
 def edo(bot, update):
-    """Send a message when the command /eth is issued."""
     edotickCall = "https://min-api.cryptocompare.com/data/price?fsym=EDO&tsyms=USD,JPY,EUR"
     edotickCallJson = requests.get(edotickCall).json()
     edotickOut = edotickCallJson 
@@ -488,7 +504,6 @@ def edo(bot, update):
 
 
 def eos(bot, update):
-    """Send a message when the command /eth is issued."""
     eostickCall = "https://min-api.cryptocompare.com/data/price?fsym=EOS&tsyms=USD,JPY,EUR"
     eostickCallJson = requests.get(eostickCall).json()
     eostickOut = eostickCallJson 
@@ -497,7 +512,6 @@ def eos(bot, update):
 
 
 def ada(bot, update):
-    """Send a message when the command /eth is issued."""
     adatickCall = "https://min-api.cryptocompare.com/data/price?fsym=ADA&tsyms=USD,JPY,EUR"
     adatickCallJson = requests.get(adatickCall).json()
     adatickOut = adatickCallJson 
@@ -507,7 +521,6 @@ def ada(bot, update):
 
 
 def xmr(bot, update):
-    """Send a message when the command /eth is issued."""
     xmrtickCall = "https://min-api.cryptocompare.com/data/price?fsym=XMR&tsyms=USD,JPY,EUR"
     xmrtickCallJson = requests.get(xmrtickCall).json()
     xmrtickOut = xmrtickCallJson 
@@ -518,7 +531,6 @@ def xmr(bot, update):
 
 
 def qtum(bot, update):
-    """Send a message when the command /eth is issued."""
     qtumtickCall = "https://min-api.cryptocompare.com/data/price?fsym=QTUM&tsyms=USD,JPY,EUR"
     qtumtickCallJson = requests.get(qtumtickCall).json()
     qtumtickOut = qtumtickCallJson 
@@ -528,7 +540,6 @@ def qtum(bot, update):
 
 
 def xlm(bot, update):
-    """Send a message when the command /eth is issued."""
     xlmtickCall = "https://min-api.cryptocompare.com/data/price?fsym=XLM&tsyms=USD,JPY,EUR"
     xlmtickCallJson = requests.get(xlmtickCall).json()
     xlmtickOut = xlmtickCallJson 
@@ -536,7 +547,6 @@ def xlm(bot, update):
 
 
 def neo(bot, update):
-    """Send a message when the command /eth is issued."""
     neotickCall = "https://min-api.cryptocompare.com/data/price?fsym=NEO&tsyms=USD,JPY,EUR"
     neotickCallJson = requests.get(neotickCall).json()
     neotickOut = neotickCallJson 
@@ -553,7 +563,6 @@ def lsk(bot, update):
 
 
 def dash(bot, update):
-    """Send a message when the command /eth is issued."""
     dashtickCall = "https://min-api.cryptocompare.com/data/price?fsym=DASH&tsyms=USD,JPY,EUR"
     dashtickCallJson = requests.get(dashtickCall).json()
     dashtickOut = dashtickCallJson 
@@ -562,7 +571,6 @@ def dash(bot, update):
 
 
 def bat(bot, update):
-    """Send a message when the command /eth is issued."""
     battickCall = "https://min-api.cryptocompare.com/data/price?fsym=BAT&tsyms=USD,JPY,EUR"
     battickCallJson = requests.get(battickCall).json()
     battickOut = battickCallJson 
@@ -570,7 +578,6 @@ def bat(bot, update):
 
 
 def nano(bot, update):
-    """Send a message when the command /eth is issued."""
     nanotickCall = "https://min-api.cryptocompare.com/data/price?fsym=NANO&tsyms=USD,JPY,EUR"
     nanotickCallJson = requests.get(nanotickCall).json()
     nanotickOut = nanotickCallJson 
@@ -587,7 +594,6 @@ def iota(bot, update):
 
 
 def zec(bot, update):
-    """Send a message when the command /eth is issued."""
     zectickCall = "https://min-api.cryptocompare.com/data/price?fsym=ZEC&tsyms=USD,JPY,EUR"
     zectickCallJson = requests.get(zectickCall).json()
     zectickOut = zectickCallJson 
@@ -597,7 +603,6 @@ def zec(bot, update):
 
 
 def etn(bot, update):
-    """Send a message when the command /eth is issued."""
     etnCall = "https://min-api.cryptocompare.com/data/price?fsym=ETN&tsyms=USD,JPY,EUR"
     etnCallJson = requests.get(etnCall).json()
     etnOut = etnCallJson 
@@ -608,7 +613,6 @@ def etn(bot, update):
 
 
 def zrx(bot, update):
-    """Send a message when the command /eth is issued."""
     zrxCall = "https://min-api.cryptocompare.com/data/price?fsym=ZRX&tsyms=USD,JPY,EUR"
     zrxCallJson = requests.get(zrxCall).json()
     zrxOut = zrxCallJson 
@@ -617,7 +621,6 @@ def zrx(bot, update):
 
 
 def dash(bot, update):
-    """Send a message when the command /eth is issued."""
     dashCall = "https://min-api.cryptocompare.com/data/price?fsym=DASH&tsyms=USD,JPY,EUR"
     dashCallJson = requests.get(dashCall).json()
     dashOut = dashCallJson 
@@ -628,7 +631,6 @@ def dash(bot, update):
 
 
 def nuls(bot, update):
-    """Send a message when the command /eth is issued."""
     nulsCall = "https://min-api.cryptocompare.com/data/price?fsym=NULS&tsyms=USD,JPY,EUR"
     nulsCallJson = requests.get(nulsCall).json()
     nulsOut = nulsCallJson 
@@ -639,7 +641,6 @@ def nuls(bot, update):
 
 
 def iost(bot, update):
-    """Send a message when the command /eth is issued."""
     iostCall = "https://min-api.cryptocompare.com/data/price?fsym=IOST&tsyms=USD,JPY,EUR"
     iostCallJson = requests.get(iostCall).json()
     iostOut = iostCallJson 
@@ -648,7 +649,6 @@ def iost(bot, update):
 
 
 def vet(bot, update):
-    """Send a message when the command /eth is issued."""
     vetCall = "https://min-api.cryptocompare.com/data/price?fsym=VET&tsyms=USD,JPY,EUR"
     vetCallJson = requests.get(vetCall).json()
     vetOut = vetCallJson 
@@ -660,15 +660,30 @@ def vet(bot, update):
 
 
 def news(bot, update):
+    """Send a message when the command /news is issued."""
     randomNews = random.randint(0,30)
-    """Send a message when the command /eth is issued."""
     newsCallJson = requests.get("https://min-api.cryptocompare.com/data/v2/news/?lang=EN").json()
     newsOut = newsCallJson ['Data'][randomNews]['url']
     update.message.reply_text(newsOut)
 
 
+
+
+def tether(bot, update):
+    tetherCall = "https://api.omniexplorer.info/v1/property/31"
+    tetherCallJson = requests.get(tetherCall).json()
+
+    tethers = tetherCallJson ['issuances'][0]
+    tetherTxid = tethers ['txid']
+    tetherGrant = tethers ['grant']
+    
+    update.message.reply_text("Last printed tether:  "+str(tetherGrant)+":   Please take TXID and past it in this block explorer to see more info: https://www.omniexplorer.info/search/"+str (tetherTxid))
+
+    
+
+
 def rules(bot, update):
-    """Send a message when the command /help is issued."""
+    """Send a message when the command /rules is issued."""
     update.message.reply_text('1. Nothing in this forum constitutes trading advice, cryptocurrency is speculative. This is a discussion forum and no user is entitled to provide or accept advice on financial matters.'
                               + '             2. No  spamming; allow others to talk. Please make no more that 5 calls to the bot a minute'
                               + '             3. No hate speech (demonization of a particular group).'
@@ -682,41 +697,42 @@ def rules(bot, update):
 
 
 
-def btcrun(bot, update):
-    photo = open('/tmp/photo.png', 'rb')
-    update.send_photo(chat_id, photo)
-    update.send_photo(chat_id, "FILEID")
 
-
+#Custom users messages
 
 def majed(bot, update):
-    
+    """majed message"""
     update.message.reply_text("Bitcoin Maximalist / Eminent Physics Professor / Citadel Visionary")
 
 
 def zully(bot, update):
-    """qdocs message"""
+    """zully message"""
     update.message.reply_text("Wave Trader / Shitcoin Whale / God Given Talent")
 
 
 def wacc(bot, update):
-    """qdocs message"""
+    """wacc message"""
     update.message.reply_text("John 1:29")
 
 
 def shaggy(bot, update):
-    """qdocs message"""
+    """shaggy message"""
     update.message.reply_text("Hardcore 4 Life")
 
 
 def qdoc(bot, update):
     """qdocs message"""
-    update.message.reply_text("Bots <3 Qdoc!")
+    update.message.reply_text("Lead Fundamental Analyst at Citadel HQ and chatroom extraordinaire.... The Esoteric Lion in the Den. (also, bots love qdoc)")
 
 
 def awg(bot, update):
     """awg message"""
     update.message.reply_text("Creator Of Chats / Collector Of Coins / Flipper Of Fiat / Master Of Money")
+
+
+def john(bot, update):
+    """john message"""
+    update.message.reply_text("QUIET!!! Genius At Work")
 
 
     
@@ -761,11 +777,12 @@ def main():
     dp.add_handler(CommandHandler("iota24", iotaChange))
     dp.add_handler(CommandHandler("edo24", edoChange))
     dp.add_handler(CommandHandler("ada24", adaChange))
+    dp.add_handler(CommandHandler("san24", sanChange))
     dp.add_handler(CommandHandler("btccap", btcCap))
     dp.add_handler(CommandHandler("ethcap", ethCap))
 
 
-
+    dp.add_handler(CommandHandler("tether", tether))
     dp.add_handler(CommandHandler("rules", rules))
     dp.add_handler(CommandHandler("help", help))
     dp.add_handler(CommandHandler("btc", btc))
@@ -804,11 +821,12 @@ def main():
     dp.add_handler(CommandHandler("zully", zully))
     dp.add_handler(CommandHandler("wacc", wacc))
     dp.add_handler(CommandHandler("shaggy", shaggy))
+    dp.add_handler(CommandHandler("john", john))
 
 
 
 
-    # on noncommand i.e message - echo the message on Telegram
+
 
 
     # log all errors
