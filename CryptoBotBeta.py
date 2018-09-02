@@ -22,8 +22,8 @@ import misclib
 
 
 
-SECRET_KEY=('CRIyMNlX3GiSj8CqTy7988JbYnmCgpMUofKASggOmlgjBrj9nALNYgCKEDJrwwdj')
-API_KEY=('QgGsjZryivsC1RhaZ81MT1IopyslATOsGNNKPjM808QPXfLZZNPHPYf01nVJ1797')
+SECRET_KEY=('')
+API_KEY=('')
 client=Client(API_KEY,SECRET_KEY)
 
 #define postgres DB
