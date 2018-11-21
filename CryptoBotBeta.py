@@ -30,7 +30,7 @@ client=Client(API_KEY,SECRET_KEY)
 DB_NAME=('users')
 DB_USERNAME=('postgres')
 DB_HOST=('localhost')
-DB_PASSWORD=('Killa274')
+DB_PASSWORD=('')
 DB_URL="dbname='"+DB_NAME+"' user='"+DB_USERNAME+"' host='"+DB_HOST+"' password='"+DB_PASSWORD+"'"
 
 conn=psycopg2.connect(DB_URL)
